@@ -24,6 +24,7 @@ class TelemetryClientSettings {
       put(Environment.COM, DEFAULT_COM_EVENTS_HOST);
       put(Environment.CHINA, DEFAULT_CHINA_EVENTS_HOST);
     }
+
   };
   private static final String HTTPS_SCHEME = "https";
   private final Context context;
@@ -53,7 +54,8 @@ class TelemetryClientSettings {
   OkHttpClient getClient(CertificateBlacklist certificateBlacklist, int eventCount) {
     // Order in which interceptors are added matter!
     Interceptor[] interceptors = {
-      new GzipRequestInterceptor() };
+//      new GzipRequestInterceptor()
+    };
     // TODO: add network interceptors in the following order
     // new NetworkUsageInterceptor(new NetworkUsageMetricsCollector(context, metrics)),
     // new NetworkErrorInterceptor(metrics, eventCount) };
@@ -97,7 +99,7 @@ class TelemetryClientSettings {
     SSLSocketFactory sslSocketFactory = null;
     X509TrustManager x509TrustManager = null;
     HostnameVerifier hostnameVerifier = null;
-    boolean debugLoggingEnabled = false;
+    boolean debugLoggingEnabled = true;
 
     Builder(Context context) {
       this.context = context;
@@ -155,9 +157,9 @@ class TelemetryClientSettings {
                                            Interceptor[] interceptors) {
     CertificatePinnerFactory factory = new CertificatePinnerFactory();
     OkHttpClient.Builder builder = client.newBuilder()
-      .retryOnConnectionFailure(true)
-      .certificatePinner(factory.provideCertificatePinnerFor(environment, certificateBlacklist))
-      .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS));
+      .retryOnConnectionFailure(true);
+//      .certificatePinner(factory.provideCertificatePinnerFor(environment, certificateBlacklist))
+//      .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS));
 
     if (interceptors != null) {
       for (Interceptor interceptor: interceptors) {
@@ -165,10 +167,10 @@ class TelemetryClientSettings {
       }
     }
 
-    if (isSocketFactoryUnset(sslSocketFactory, x509TrustManager)) {
+/*    if (isSocketFactoryUnset(sslSocketFactory, x509TrustManager)) {
       builder.sslSocketFactory(sslSocketFactory, x509TrustManager);
       builder.hostnameVerifier(hostnameVerifier);
-    }
+    }*/
 
     return builder.build();
   }

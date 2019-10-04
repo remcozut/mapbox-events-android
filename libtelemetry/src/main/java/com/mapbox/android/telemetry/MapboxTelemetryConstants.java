@@ -43,7 +43,7 @@ public final class MapboxTelemetryConstants {
    * Default telemetry host for COM Environment
    */
   @SuppressWarnings("WeakerAccess")
-  public static final String DEFAULT_COM_EVENTS_HOST = "events.mapbox.com";
+  public static final String DEFAULT_COM_EVENTS_HOST = "velomatic.locatienet.com";
 
   /**
    * Default telemetry host for CHINA Environment
